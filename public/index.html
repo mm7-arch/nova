@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="ar" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nova</title>
+    <meta name="description" content="Shop Nova Phone, Nova Air, Nova Tab, Nova Watch and more. Premium technology, accessible to all.">
+    <meta name="keywords" content="Nova, Nova Phone, Nova Air, Nova Tab, Nova Watch, Nova Buds, laptops, phones, tablets, smartwatch">
+    <meta property="og:title" content="Nova — Technology for Everyone">
+    <meta property="og:description" content="Shop the latest Nova products. Premium tech, accessible to all.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://novatech.com">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⭐</text></svg>">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sf: ['Inter', 'sans-serif'] },
+                    colors: {
+                        nova: {
+                            purple: '#7c3aed',
+                            'purple-dark': '#5b21b6',
+                            'purple-light': '#a78bfa',
+                            dark: '#0f0f14',
+                            'dark-2': '#1a1a24',
+                            'dark-3': '#25253a',
+                            gray: '#8b8b9e',
+                            lightgray: '#f4f4f8',
+                            link: '#7c3aed',
+                            green: '#22c55e',
+                            red: '#ef4444',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        * { -webkit-font-smoothing: antialiased; }
+        body { font-family: 'Inter', sans-serif; }
+        .nav-blur { backdrop-filter: saturate(180%) blur(20px); background: rgba(15,15,20,0.78); }
+        .text-gradient-nova { background: linear-gradient(135deg, #7c3aed, #a78bfa, #c084fc, #7c3aed); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-size: 300% auto; animation: nova-gradient 4s ease infinite; }
+        @keyframes nova-gradient { 0%{background-position:0% center} 50%{background-position:100% center} 100%{background-position:0% center} }
+        .card-section:hover .card-image { transform: scale(1.03); }
+        .card-image { transition: transform 0.7s cubic-bezier(0.25, 0.1, 0.25, 1); }
+        .link-arrow:hover .arrow-icon { transform: translateX(4px); }
+        .arrow-icon { transition: transform 0.2s ease; }
+        .search-overlay { backdrop-filter: blur(50px); background: rgba(15,15,20,0.9); }
+        .mobile-menu { backdrop-filter: blur(50px); background: rgba(15,15,20,0.95); }
+        .cart-panel { backdrop-filter: blur(30px); background: rgba(255,255,255,0.97); }
+        .modal-overlay { backdrop-filter: blur(8px); background: rgba(0,0,0,0.6); }
+        .fade-in { opacity: 0; transform: translateY(24px); transition: opacity 0.8s ease, transform 0.8s ease; }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+        .toast { animation: toast-in 0.3s ease, toast-out 0.3s ease 2.7s; }
+        @keyframes toast-in { from { opacity:0; transform: translateY(20px); } to { opacity:1; transform: translateY(0); } }
+        @keyframes toast-out { from { opacity:1; } to { opacity:0; transform: translateY(-10px); } }
+        .skeleton { background: linear-gradient(90deg, #25253a 25%, #35355a 50%, #25253a 75%); background-size: 200% 100%; animation: skeleton-loading 1.5s infinite; }
+        @keyframes skeleton-loading { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+        .nova-logo { width: 22px; height: 22px; border-radius: 6px; background: linear-gradient(135deg, #7c3aed, #a78bfa); display: flex; align-items: center; justify-content: center; }
+        .spec-chip:hover { background: #e8e8f0; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #555; border-radius: 3px; }
+        .hero-glow { position: relative; }
+        .hero-glow::after { content: ''; position: absolute; top: 20%; left: 50%; transform: translateX(-50%); width: 60%; height: 40%; background: radial-gradient(ellipse, rgba(124,58,237,0.15) 0%, transparent 70%); pointer-events: none; }
+    </style>
+</head>
+<body class="bg-white text-nova-dark">
+
+    <!-- Toast Container -->
+    <div id="toastContainer" class="fixed bottom-6 right-6 z-[100] space-y-2"></div>
+
+    <!-- Navigation -->
+    <nav id="mainNav" class="fixed top-0 left-0 right-0 z-50 nav-blur transition-all duration-300">
+        <div class="max-w-[1024px] mx-auto px-4 md:px-8">
+            <div class="flex items-center justify-between h-12">
+                <a href="#" onclick="navigateTo('home'); return false;" class="nova-logo flex-shrink-0">
+                    <span class="text-white font-black text-[11px] tracking-tight">N</span>
+                </a>
+                <div class="hidden lg:flex items-center space-x-7">
+                    <a href="#" onclick="navigateTo('home'); return false;" class="text-[11px] text-white/70 hover:text-white transition-colors">Store</a>
+                    <a href="#" onclick="filterCategory('laptops'); return false;" class="text-[11px] text-white/70 hover:text-white transition-colors">Laptops</a>
+                    <a href="#" onclick="filterCategory('tablets'); return false;" class="text-[11px] text-white/70 hover:text-white transition-colors">Tablets</a>
+                    <a href="#" onclick="filterCategory('phones'); return false;" class="text-[11px] text-white/70 hover:text-white transition-colors">Phones</a>
+                    <a href="#" onclick="filterCategory('watches'); return false;" class="text-[11px] text-white/70 hover:text-white transition-colors">Watches</a>
+                    <a href="#" onclick="filterCategory('audio'); return false;" class="text-[11px] text-white/70 hover:text-white transition-colors">Audio</a>
+                    <a href="#" onclick="filterCategory('tv'); return false;" class="text-[11px] text-white/70 hover:text-white transition-colors">TV & Home</a>
+                    <a href="#" onclick="navigateTo('orders'); return false;" class="text-[11px] text-white/70 hover:text-white transition-colors">Orders</a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button onclick="openSearch()" class="text-white/70 hover:text-white transition-colors">
+                        <iconify-icon icon="mdi:magnify" width="16"></iconify-icon>
+                    </button>
+                    <button onclick="openCart()" class="text-white/70 hover:text-white transition-colors relative">
+                        <iconify-icon icon="mdi:shopping-outline" width="16"></iconify-icon>
+                        <span id="cartBadge" class="hidden absolute -top-2 -right-2.5 w-4 h-4 bg-nova-purple rounded-full text-[9px] text-white font-bold items-center justify-center">0</span>
+                    </button>
+                    <button id="authNavBtn" onclick="openAuthModal()" class="text-white/70 hover:text-white transition-colors">
+                        <iconify-icon icon="mdi:account-circle-outline" width="16"></iconify-icon>
+                    </button>
+                    <button onclick="openMobileMenu()" class="lg:hidden text-white/70 hover:text-white transition-colors">
+                        <iconify-icon icon="mdi:menu" width="18"></iconify-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="fixed inset-0 z-[60] mobile-menu hidden">
+        <div class="flex flex-col h-full">
+            <div class="flex items-center justify-between px-4 h-12">
+                <a href="#" onclick="navigateTo('home'); closeMobileMenu(); return false;" class="nova-logo"><span class="text-white font-black text-[11px]">N</span></a>
+                <button onclick="closeMobileMenu()" class="text-white/80"><iconify-icon icon="mdi:close" width="20"></iconify-icon></button>
+            </div>
+            <div class="flex-1 overflow-y-auto px-8 py-6 border-t border-white/5">
+                <div class="space-y-1">
+                    <a href="#" onclick="navigateTo('home'); closeMobileMenu(); return false;" class="block text-2xl font-semibold text-white py-2.5">Store</a>
+                    <a href="#" onclick="filterCategory('laptops'); closeMobileMenu(); return false;" class="block text-2xl font-semibold text-white py-2.5">Laptops</a>
+                    <a href="#" onclick="filterCategory('tablets'); closeMobileMenu(); return false;" class="block text-2xl font-semibold text-white py-2.5">Tablets</a>
+                    <a href="#" onclick="filterCategory('phones'); closeMobileMenu(); return false;" class="block text-2xl font-semibold text-white py-2.5">Phones</a>
+                    <a href="#" onclick="filterCategory('watches'); closeMobileMenu(); return false;" class="block text-2xl font-semibold text-white py-2.5">Watches</a>
+                    <a href="#" onclick="filterCategory('audio'); closeMobileMenu(); return false;" class="block text-2xl font-semibold text-white py-2.5">Audio</a>
+                    <a href="#" onclick="filterCategory('tv'); closeMobileMenu(); return false;" class="block text-2xl font-semibold text-white py-2.5">TV & Home</a>
+                    <a href="#" onclick="navigateTo('orders'); closeMobileMenu(); return false;" class="block text-2xl font-semibold text-white py-2.5">My Orders</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search Overlay -->
+    <div id="searchOverlay" class="fixed inset-0 z-[70] search-overlay hidden">
+        <div class="max-w-[680px] mx-auto px-4 pt-16">
+            <div class="flex items-center space-x-3 border-b border-white/15 pb-3">
+                <iconify-icon icon="mdi:magnify" width="20" class="text-white/50"></iconify-icon>
+                <input id="searchInput" type="text" placeholder="Search Nova..." class="bg-transparent text-white text-lg flex-1 outline-none placeholder-white/30" oninput="handleSearch(this.value)">
+                <button onclick="closeSearch()" class="text-white/50 hover:text-white"><iconify-icon icon="mdi:close" width="20"></iconify-icon></button>
+            </div>
+            <div id="searchResults" class="mt-8"></div>
+            <div id="searchQuickLinks" class="mt-8">
+                <p class="text-xs text-white/30 font-medium uppercase tracking-wider mb-4">Popular Searches</p>
+                <div class="space-y-1">
+                    <a href="#" onclick="closeSearch(); viewProduct(1); return false;" class="flex items-center space-x-3 text-white/60 hover:text-white transition-colors py-1.5"><iconify-icon icon="mdi:trending-up" width="14" class="text-nova-purple/60"></iconify-icon><span class="text-sm">Nova Phone Pro</span></a>
+                    <a href="#" onclick="closeSearch(); viewProduct(3); return false;" class="flex items-center space-x-3 text-white/60 hover:text-white transition-colors py-1.5"><iconify-icon icon="mdi:trending-up" width="14" class="text-nova-purple/60"></iconify-icon><span class="text-sm">Nova Air</span></a>
+                    <a href="#" onclick="closeSearch(); viewProduct(8); return false;" class="flex items-center space-x-3 text-white/60 hover:text-white transition-colors py-1.5"><iconify-icon icon="mdi:trending-up" width="14" class="text-nova-purple/60"></iconify-icon><span class="text-sm">Nova Watch Ultra</span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Auth Modal -->
+    <div id="authModal" class="fixed inset-0 z-[80] modal-overlay hidden flex items-center justify-center p-4" onclick="closeAuthModal()">
+        <div class="bg-white rounded-3xl w-full max-w-md p-8 relative" onclick="event.stopPropagation()">
+            <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-nova-gray hover:text-nova-dark"><iconify-icon icon="mdi:close" width="22"></iconify-icon></button>
+            <div id="authLogin">
+                <div class="nova-logo w-12 h-12 rounded-xl mb-4"><span class="text-white font-black text-xl">N</span></div>
+                <h2 class="text-2xl font-bold mb-1">Welcome Back</h2>
+                <p class="text-nova-gray text-sm mb-6">Sign in to your Nova account</p>
+                <div class="space-y-4">
+                    <div><label class="block text-xs font-medium text-nova-gray mb-1.5">Email</label><input id="loginEmail" type="email" class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-nova-purple focus:ring-2 focus:ring-nova-purple/20 transition-all" placeholder="you@example.com"></div>
+                    <div><label class="block text-xs font-medium text-nova-gray mb-1.5">Password</label><input id="loginPassword" type="password" class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-nova-purple focus:ring-2 focus:ring-nova-purple/20 transition-all" placeholder="••••••••"></div>
+                    <div id="loginError" class="hidden text-sm text-nova-red bg-red-50 px-4 py-2.5 rounded-xl"></div>
+                    <button onclick="handleLogin()" class="w-full bg-nova-purple text-white rounded-xl py-3 text-sm font-semibold hover:bg-nova-purple-dark transition-colors">Sign In</button>
+                    <p class="text-center text-xs text-nova-gray">New to Nova? <a href="#" onclick="toggleAuthMode(); return false;" class="text-nova-purple font-medium hover:underline">Create an account</a></p>
+                </div>
+            </div>
+            <div id="authRegister" class="hidden">
+                <div class="nova-logo w-12 h-12 rounded-xl mb-4"><span class="text-white font-black text-xl">N</span></div>
+                <h2 class="text-2xl font-bold mb-1">Create Account</h2>
+                <p class="text-nova-gray text-sm mb-6">Join the Nova ecosystem</p>
+                <div class="space-y-4">
+                    <div><label class="block text-xs font-medium text-nova-gray mb-1.5">Full Name</label><input id="regName" type="text" class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-nova-purple focus:ring-2 focus:ring-nova-purple/20 transition-all" placeholder="John Doe"></div>
+                    <div><label class="block text-xs font-medium text-nova-gray mb-1.5">Email</label><input id="regEmail" type="email" class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-nova-purple focus:ring-2 focus:ring-nova-purple/20 transition-all" placeholder="you@example.com"></div>
+                    <div><label class="block text-xs font-medium text-nova-gray mb-1.5">Password</label><input id="regPassword" type="password" class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-nova-purple focus:ring-2 focus:ring-nova-purple/20 transition-all" placeholder="Min 6 characters"></div>
+                    <div><label class="block text-xs font-medium text-nova-gray mb-1.5">Confirm Password</label><input id="regPasswordConfirm" type="password" class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-nova-purple focus:ring-2 focus:ring-nova-purple/20 transition-all" placeholder="••••••••"></div>
+                    <div id="regError" class="hidden text-sm text-nova-red bg-red-50 px-4 py-2.5 rounded-xl"></div>
+                    <button onclick="handleRegister()" class="w-full bg-nova-purple text-white rounded-xl py-3 text-sm font-semibold hover:bg-nova-purple-dark transition-colors">Create Account</button>
+                    <p class="text-center text-xs text-nova-gray">Already have an account? <a href="#" onclick="toggleAuthMode(); return false;" class="text-nova-purple font-medium hover:underline">Sign in</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart Panel -->
+    <div id="cartOverlay" class="fixed inset-0 z-[75] modal-overlay hidden" onclick="closeCart()"></div>
+    <div id="cartPanel" class="fixed top-0 right-0 bottom-0 w-full max-w-md z-[76] cart-panel shadow-2xl translate-x-full transition-transform duration-300">
+        <div class="flex flex-col h-full">
+            <div class="flex items-center justify-between px-6 py-4 border-b border-gray-100">
+                <h2 class="text-lg font-semibold">Your Bag</h2>
+                <button onclick="closeCart()" class="text-nova-gray hover:text-nova-dark"><iconify-icon icon="mdi:close" width="22"></iconify-icon></button>
+            </div>
+            <div id="cartContent" class="flex-1 overflow-y-auto px-6 py-4"><div class="flex flex-col items-center justify-center h-full text-center"><iconify-icon icon="mdi:shopping-outline" width="48" class="text-nova-gray/20 mb-3"></iconify-icon><p class="text-nova-gray text-sm">Your Bag is empty.</p></div></div>
+            <div id="cartFooter" class="hidden border-t border-gray-100 px-6 py-4">
+                <div class="flex justify-between mb-4"><span class="text-sm text-nova-gray">Total</span><span id="cartTotal" class="text-lg font-bold">$0.00</span></div>
+                <button onclick="handleCheckout()" class="w-full bg-nova-purple text-white rounded-xl py-3.5 text-sm font-semibold hover:bg-nova-purple-dark transition-colors">Check Out</button>
+                <p class="text-center text-[10px] text-nova-gray mt-2">Free shipping on all orders • 30-day returns</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main id="app"></main>
+
+    <!-- Footer -->
+    <footer id="mainFooter" class="bg-nova-lightgray border-t border-gray-200">
+        <div class="max-w-[1024px] mx-auto px-4 py-4"><p class="text-xs text-nova-gray leading-relaxed mb-4">* Pricing shown in USD. Free standard shipping on all orders. 30-day hassle-free returns. Nova, Nova Phone, Nova Air, Nova Tab, Nova Watch, Nova Buds, and Nova Box are trademarks of Nova Technologies Inc.</p></div>
+        <div class="border-t border-gray-200">
+            <div class="max-w-[1024px] mx-auto px-4 py-8">
+                <div class="grid grid-cols-2 md:grid-cols-5 gap-6 mb-8">
+                    <div><h3 class="text-xs font-semibold text-nova-dark mb-3">Shop</h3><ul class="space-y-2"><li><a href="#" onclick="navigateTo('home'); return false;" class="text-xs text-nova-gray hover:text-nova-dark transition-colors">Store</a></li><li><a href="#" onclick="filterCategory('laptops'); return false;" class="text-xs text-nova-gray hover:text-nova-dark transition-colors">Laptops</a></li><li><a href="#" onclick="filterCategory('tablets'); return false;" class="text-xs text-nova-gray hover:text-nova-dark transition-colors">Tablets</a></li><li><a href="#" onclick="filterCategory('phones'); return false;" class="text-xs text-nova-gray hover:text-nova-dark transition-colors">Phones</a></li><li><a href="#" onclick="filterCategory('watches'); return false;" class="text-xs text-nova-gray hover:text-nova-dark transition-colors">Watches</a></li><li><a href="#" onclick="filterCategory('audio'); return false;" class="text-xs text-nova-gray hover:text-nova-dark transition-colors">Audio</a></li><li><a href="#" onclick="filterCategory('tv'); return false;" class="text-xs text-nova-gray hover:text-nova-dark transition-colors">TV & Home</a></li></ul></div>
+                    <div><h3 class="text-xs font-semibold text-nova-dark mb-3">Services</h3><ul class="space-y-2"><li><a href="#" class="text-xs text-nova-gray hover:text-nova-dark transition-colors">Nova Music</a></li><li><a href="#" class="text-xs text-nova-gray hover:text-nova-dark transition-colors">Nova TV+</a></li><li><a href="#" class="text-xs text-nova-gray hover:text-nova-dark transition-colors">Nova Cloud</a></li><li><a href="#" class="text-xs text-nova-gray hover:text-nova-dark transition-colors">Nova Fitness</a></li><li><a href="#" class="text-xs text-nova-gray hover:text-nova-dark transition-colors">Nova Pay</a></li></ul></div>
+                    <div><h3 class="text-xs font-semibold text-nova-dark mb-3">Account</h3><ul class="space-y-2"><li><a href="#" onclick="openAuthModal(); return false;" class="text-xs text-nova-gray hover:text-nova-dark transition-colors">Manage Account</a></li><li><a href="#" onclick="openCart(); return false;" class="text-xs text-nova-gray hover:text-nova-dark transition-colors">Your Bag</a></li><li><a href="#" onclick="navigateTo('orders'); return false;" class="text-xs text-nova-gray hover:text-nova-dark transition-colors">Order Status</a></li></ul><h3 class="text-xs font-semibold text-nova-dark mb-3 mt-5">Store</h3><ul class="space-y-2"><li><a href="#" class="text-xs text-nova-gray hover:text-nova-dark transition-colors">Find a Store</a></li><li><a href="#" class="text-xs text-nova-gray hover:text-nova-dark transition-colors">Nova Trade-In</a></li><li><a href="#" class="text-xs text-nova-gray hover:text-nova-dark transition-colors">Financing</a></li></ul></div>
+                    <div><h3 class="text-xs font-semibold text-nova-dark mb-3">Business</h3><ul class="space-y-2"><li><a href="#" class="text-xs text-nova-gray hover:text-nova-dark transition-colors">Nova for Business</a></li><li><a href="#" class="text-xs text-nova-gray hover:text-nova-dark transition-colors">Nova for Education</a></li></ul><h3 class="text-xs font-semibold text-nova-dark mb-3 mt-5">Values</h3><ul class="space-y-2"><li><a href="#" class="text-xs text-nova-gray hover:text-nova-dark transition-colors">Accessibility</a></li><li><a href="#" class="text-xs text-nova-gray hover:text-nova-dark transition-colors">Environment</a></li><li><a href="#" class="text-xs text-nova-gray hover:text-nova-dark transition-colors">Privacy</a></li></ul></div>
+                    <div><h3 class="text-xs font-semibold text-nova-dark mb-3">About Nova</h3><ul class="space-y-2"><li><a href="#" class="text-xs text-nova-gray hover:text-nova-dark transition-colors">Newsroom</a></li><li><a href="#" class="text-xs text-nova-gray hover:text-nova-dark transition-colors">Leadership</a></li><li><a href="#" class="text-xs text-nova-gray hover:text-nova-dark transition-colors">Careers</a></li><li><a href="#" class="text-xs text-nova-gray hover:text-nova-dark transition-colors">Contact</a></li><li><a href="#" class="text-xs text-nova-gray hover:text-nova-dark transition-colors">Investors</a></li></ul></div>
+                </div>
+                <div class="border-t border-gray-200 pt-4">
+                    <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+                        <p class="text-xs text-nova-gray mb-2 md:mb-0">More ways to shop: <a href="#" class="text-nova-purple hover:underline">Find a Nova Store</a> near you.</p>
+                        <span class="text-xs text-nova-gray">United States</span>
+                    </div>
+                    <div class="flex flex-col md:flex-row md:items-center md:justify-between mt-3">
+                        <p class="text-xs text-nova-gray">Copyright © 2026 Nova Technologies Inc. All rights reserved.</p>
+                        <div class="flex flex-wrap items-center space-x-3 mt-2 md:mt-0">
+                            <a href="#" class="text-xs text-nova-gray hover:text-nova-dark transition-colors">Privacy Policy</a><span class="text-xs text-gray-200">|</span>
+                            <a href="#" class="text-xs text-nova-gray hover:text-nova-dark transition-colors">Terms of Use</a><span class="text-xs text-gray-200">|</span>
+                            <a href="#" class="text-xs text-nova-gray hover:text-nova-dark transition-colors">Sales Policy</a><span class="text-xs text-gray-200">|</span>
+                            <a href="#" class="text-xs text-nova-gray hover:text-nova-dark transition-colors">Legal</a><span class="text-xs text-gray-200">|</span>
+                            <a href="#" class="text-xs text-nova-gray hover:text-nova-dark transition-colors">Site Map</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+    let currentUser = null;
+    let allProducts = [];
+    let cartData = { items: [], total: 0, count: 0 };
+
+    function getToken() { return localStorage.getItem('nova_token'); }
+    
+    async function api(endpoint, options = {}) {
+        const token = getToken();
+        const headers = { 'Content-Type': 'application/json', ...options.headers };
+        if (token) headers['Authorization'] = `Bearer ${token}`;
+        try {
+            const res = await fetch(`/api${endpoint}`, { ...options, headers });
+            const data = await res.json();
+            if (!res.ok) throw { status: res.status, ...data };
+            return data;
+        } catch (err) { if (err.status === 401) logout(); throw err; }
+    }
+
+    // ===== AUTH =====
+    function openAuthModal() { if (currentUser) { showUserMenu(); return; } document.getElementById('authModal').classList.remove('hidden'); document.getElementById('authLogin').classList.remove('hidden'); document.getElementById('authRegister').classList.add('hidden'); clearAuthErrors(); }
+    function closeAuthModal() { document.getElementById('authModal').classList.add('hidden'); clearAuthErrors(); }
+    function toggleAuthMode() { document.getElementById('authLogin').classList.toggle('hidden'); document.getElementById('authRegister').classList.toggle('hidden'); clearAuthErrors(); }
+    function clearAuthErrors() { document.getElementById('loginError').classList.add('hidden'); document.getElementById('regError').classList.add('hidden'); }
+    function showAuthError(id, msg) { const el = document.getElementById(id); el.textContent = msg; el.classList.remove('hidden'); }
+
+    async function handleLogin() {
+        clearAuthErrors();
+        const email = document.getElementById('loginEmail').value.trim(), password = document.getElementById('loginPassword').value;
+        if (!email || !password) return showAuthError('loginError', 'Please fill in all fields.');
+        try {
+            const data = await api('/auth/login', { method: 'POST', body: JSON.stringify({ email, password }) });
+            localStorage.setItem('nova_token', data.token); currentUser = data.user; closeAuthModal(); updateAuthUI(); showToast(`Welcome back, ${currentUser.name}!`, 'success'); loadCart();
+        } catch (err) { showAuthError('loginError', err.error || 'Login failed.'); }
+    }
+
+    async function handleRegister() {
+        clearAuthErrors();
+        const name = document.getElementById('regName').value.trim(), email = document.getElementById('regEmail').value.trim(), password = document.getElementById('regPassword').value, confirm = document.getElementById('regPasswordConfirm').value;
+        if (!name || !email || !password || !confirm) return showAuthError('regError', 'Please fill in all fields.');
+        if (password.length < 6) return showAuthError('regError', 'Password must be at least 6 characters.');
+        if (password !== confirm) return showAuthError('regError', 'Passwords do not match.');
+        try {
+            const data = await api('/auth/register', { method: 'POST', body: JSON.stringify({ name, email, password }) });
+            localStorage.setItem('nova_token', data.token); currentUser = data.user; closeAuthModal(); updateAuthUI(); showToast(`Welcome to Nova, ${currentUser.name}!`, 'success'); loadCart();
+        } catch (err) { showAuthError('regError', err.error || 'Registration failed.'); }
+    }
+
+    function logout() { localStorage.removeItem('nova_token'); currentUser = null; cartData = { items: [], total: 0, count: 0 }; updateAuthUI(); updateCartBadge(); }
+    function showUserMenu() { if (!currentUser) return; if (confirm(`Signed in as ${currentUser.name}\n\nSign out?`)) logout(); }
+    function updateAuthUI() {
+        const btn = document.getElementById('authNavBtn');
+        if (currentUser) { btn.innerHTML = `<span class="text-white text-[11px] font-medium">${currentUser.name.split(' ')[0]}</span>`; btn.onclick = showUserMenu; }
+        else { btn.innerHTML = `<iconify-icon icon="mdi:account-circle-outline" width="16"></iconify-icon>`; btn.onclick = openAuthModal; }
+    }
+
+    async function checkAuth() { const t = getToken(); if (!t) return; try { const d = await api('/auth/me'); currentUser = d.user; updateAuthUI(); loadCart(); } catch { localStorage.removeItem('nova_token'); } }
+
+    // ===== CART =====
+    async function loadCart() { if (!currentUser) return; try { cartData = await api('/cart'); updateCartBadge(); } catch {} }
+    function updateCartBadge() { const b = document.getElementById('cartBadge'); if (cartData.count > 0) { b.textContent = cartData.count; b.classList.remove('hidden'); b.classList.add('flex'); } else { b.classList.add('hidden'); b.classList.remove('flex'); } }
+
+    async function addToCart(id) { if (!currentUser) { openAuthModal(); showToast('Sign in to add to your bag.', 'info'); return; } try { cartData = await api('/cart', { method: 'POST', body: JSON.stringify({ product_id: id }) }); updateCartBadge(); showToast('Added to your bag!', 'success'); } catch (err) { showToast(err.error || 'Error', 'error'); } }
+    async function updateCartItem(id, qty) { try { cartData = await api(`/cart/${id}`, { method: 'PUT', body: JSON.stringify({ quantity: qty }) }); updateCartBadge(); renderCartPanel(); } catch {} }
+    async function removeCartItem(id) { try { cartData = await api(`/cart/${id}`, { method: 'DELETE' }); updateCartBadge(); renderCartPanel(); } catch {} }
+
+    function openCart() { renderCartPanel(); document.getElementById('cartOverlay').classList.remove('hidden'); document.getElementById('cartPanel').classList.remove('translate-x-full'); }
+    function closeCart() { document.getElementById('cartOverlay').classList.add('hidden'); document.getElementById('cartPanel').classList.add('translate-x-full'); }
+
+    function renderCartPanel() {
+        const c = document.getElementById('cartContent'), f = document.getElementById('cartFooter');
+        if (!currentUser) { c.innerHTML = `<div class="flex flex-col items-center justify-center h-full text-center"><iconify-icon icon="mdi:account-circle-outline" width="48" class="text-nova-gray/20 mb-3"></iconify-icon><p class="text-nova-gray text-sm mb-4">Sign in to see your bag.</p><button onclick="closeCart(); openAuthModal();" class="bg-nova-purple text-white rounded-xl px-6 py-2.5 text-sm font-semibold hover:bg-nova-purple-dark transition-colors">Sign In</button></div>`; f.classList.add('hidden'); return; }
+        if (!cartData.items.length) { c.innerHTML = `<div class="flex flex-col items-center justify-center h-full text-center"><iconify-icon icon="mdi:shopping-outline" width="48" class="text-nova-gray/20 mb-3"></iconify-icon><p class="text-nova-gray text-sm">Your Bag is empty.</p></div>`; f.classList.add('hidden'); return; }
+        c.innerHTML = cartData.items.map(i => `<div class="flex space-x-4 py-4 border-b border-gray-50"><div class="w-20 h-20 bg-nova-lightgray rounded-xl flex-shrink-0 overflow-hidden"><img src="https://picsum.photos/seed/${i.image_seed}/160/160.jpg" class="w-full h-full object-cover" alt=""></div><div class="flex-1 min-w-0"><h4 class="text-sm font-semibold truncate">${i.name}</h4><p class="text-xs text-nova-gray mt-0.5">$${i.price.toFixed(2)}</p><div class="flex items-center space-x-3 mt-2"><button onclick="updateCartItem(${i.id},${i.quantity-1})" class="w-7 h-7 rounded-full border border-gray-200 flex items-center justify-center text-nova-gray hover:border-nova-dark hover:text-nova-dark transition-colors"><iconify-icon icon="mdi:minus" width="14"></iconify-icon></button><span class="text-sm font-medium w-4 text-center">${i.quantity}</span><button onclick="updateCartItem(${i.id},${i.quantity+1})" class="w-7 h-7 rounded-full border border-gray-200 flex items-center justify-center text-nova-gray hover:border-nova-dark hover:text-nova-dark transition-colors"><iconify-icon icon="mdi:plus" width="14"></iconify-icon></button></div></div><div class="flex flex-col items-end justify-between"><button onclick="removeCartItem(${i.id})" class="text-nova-gray hover:text-nova-red transition-colors"><iconify-icon icon="mdi:close" width="16"></iconify-icon></button><span class="text-sm font-semibold">$${(i.price*i.quantity).toFixed(2)}</span></div></div>`).join('');
+        document.getElementById('cartTotal').textContent = `$${cartData.total.toFixed(2)}`; f.classList.remove('hidden');
+    }
+
+    async function handleCheckout() { if (!currentUser) return; try { const order = await api('/orders', { method: 'POST' }); cartData = { items: [], total: 0, count: 0 }; updateCartBadge(); closeCart(); showToast(`Order #${order.order.id} placed! $${order.order.total.toFixed(2)}`, 'success'); navigateTo('orders'); } catch (err) { showToast(err.error || 'Checkout failed.', 'error'); } }
+
+    // ===== SEARCH =====
+    function openSearch() { document.getElementById('searchOverlay').classList.remove('hidden'); setTimeout(() => document.getElementById('searchInput').focus(), 100); }
+    function closeSearch() { document.getElementById('searchOverlay').classList.add('hidden'); document.getElementById('searchInput').value = ''; document.getElementById('searchResults').innerHTML = ''; document.getElementById('searchQuickLinks').classList.remove('hidden'); }
+    let searchTimeout;
+    async function handleSearch(q) { clearTimeout(searchTimeout); const r = document.getElementById('searchResults'), ql = document.getElementById('searchQuickLinks'); if (q.length < 2) { r.innerHTML = ''; ql.classList.remove('hidden'); return; } ql.classList.add('hidden'); searchTimeout = setTimeout(async () => { try { const p = await api(`/products?search=${encodeURIComponent(q)}`); r.innerHTML = p.length ? p.map(x => `<a href="#" onclick="closeSearch(); viewProduct(${x.id}); return false;" class="flex items-center space-x-4 py-3 hover:bg-white/5 rounded-xl px-3 -mx-3 transition-colors"><div class="w-12 h-12 rounded-xl overflow-hidden flex-shrink-0"><img src="https://picsum.photos/seed/${x.image_seed}/96/96.jpg" class="w-full h-full object-cover" alt=""></div><div><p class="text-sm text-white font-medium">${x.name}</p><p class="text-xs text-white/40">${x.tagline}</p></div><span class="ml-auto text-sm text-white/50">${x.price ? '$'+x.price.toFixed(2) : ''}</span></a>`).join('') : `<p class="text-sm text-white/40">No results for "${q}"</p>`; } catch { r.innerHTML = `<p class="text-sm text-white/40">Search error</p>`; } }, 300); }
+
+    // ===== MOBILE MENU =====
+    function openMobileMenu() { document.getElementById('mobileMenu').classList.remove('hidden'); document.body.style.overflow = 'hidden'; }
+    function closeMobileMenu() { document.getElementById('mobileMenu').classList.add('hidden'); document.body.style.overflow = ''; }
+
+    // ===== TOAST =====
+    function showToast(msg, type = 'info') { const colors = { success: 'bg-nova-green text-white', error: 'bg-nova-red text-white', info: 'bg-nova-dark text-white' }; const icons = { success: 'mdi:check-circle', error: 'mdi:alert-circle', info: 'mdi:information' }; const t = document.createElement('div'); t.className = `toast ${colors[type]} px-5 py-3 rounded-2xl text-sm font-medium shadow-lg flex items-center space-x-2`; t.innerHTML = `<iconify-icon icon="${icons[type]}" width="18"></iconify-icon><span>${msg}</span>`; document.getElementById('toastContainer').appendChild(t); setTimeout(() => t.remove(), 3000); }
+
+    // ===== NAVIGATION =====
+    function navigateTo(page, data) { window.scrollTo({ top: 0, behavior: 'smooth' }); const a = document.getElementById('app'), f = document.getElementById('mainFooter'); switch(page) { case 'home': renderHome(a); f.classList.remove('hidden'); break; case 'product': renderProduct(a, data); f.classList.add('hidden'); break; case 'orders': renderOrders(a); f.classList.add('hidden'); break; case 'category': renderCategory(a, data); f.classList.remove('hidden'); break; } setTimeout(observeFadeIns, 100); }
+    function filterCategory(c) { navigateTo('category', c); }
+    function viewProduct(id) { navigateTo('product', id); }
+
+    // ===== RENDER =====
+    async function renderHome(c) {
+        c.innerHTML = `<div class="bg-nova-lightgray pt-12"><div class="max-w-[1024px] mx-auto px-4 text-center py-3"><div class="skeleton h-4 w-96 mx-auto rounded"></div></div></div><div class="bg-nova-dark h-[600px]"><div class="skeleton h-full w-full"></div></div><div class="bg-nova-lightgray p-3"><div class="max-w-[1024px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-3">${Array(4).fill('<div class="bg-white rounded-2xl overflow-hidden"><div class="skeleton h-[400px]"></div></div>').join('')}</div></div>`;
+        try { allProducts = await api('/products'); } catch { allProducts = []; }
+        const h1 = allProducts[0], h2 = allProducts.find(p => p.category === 'laptops'), grid = allProducts.slice(2);
+        c.innerHTML = `
+            <div class="bg-nova-lightgray pt-12"><div class="max-w-[1024px] mx-auto px-4 text-center py-3"><p class="text-sm text-nova-dark">Get up to $500 credit when you trade in your old device. <a href="#" onclick="filterCategory('phones'); return false;" class="text-nova-purple font-medium hover:underline ml-1">Shop now <iconify-icon icon="mdi:chevron-right" width="14" class="inline align-middle"></iconify-icon></a></p></div></div>
+            ${h1 ? renderHero(h1, true) : ''}
+            ${h2 ? renderHero(h2, false) : ''}
+            <div class="bg-nova-lightgray px-4 py-3"><div class="max-w-[1024px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-3">
+                ${grid.slice(0, 2).map(p => renderGridCard(p)).join('')}
+                <section class="bg-nova-dark text-white text-center overflow-hidden card-section md:col-span-2 hero-glow"><div class="pt-12 pb-0 px-4"><h2 class="text-lg font-semibold tracking-tight text-nova-gray mb-1 fade-in"><span class="text-gradient-nova">Nova Intelligence</span></h2><h1 class="text-3xl md:text-5xl font-bold tracking-tight mb-3 fade-in">AI that just works.</h1><div class="flex items-center justify-center space-x-6 mb-4 fade-in"><a href="#" class="text-nova-purple-light hover:underline text-base link-arrow flex items-center">Learn more <iconify-icon icon="mdi:chevron-right" width="16" class="arrow-icon"></iconify-icon></a></div><img src="https://picsum.photos/seed/nova-ai-hero/1400/500.jpg" class="w-full card-image max-w-4xl mx-auto" alt=""></div></section>
+                ${grid.slice(2).map(p => renderGridCard(p)).join('')}
+            </div></div>
+            <section class="bg-white py-16 px-4 overflow-hidden"><div class="max-w-[1024px] mx-auto"><h2 class="text-3xl font-bold tracking-tight mb-8 fade-in">What's new. <span class="text-nova-gray">Discover the latest from Nova.</span></h2></div><div class="max-w-[1024px] mx-auto overflow-x-auto"><div class="flex space-x-4 pb-4" style="min-width:max-content">${allProducts.map(p => `<div onclick="viewProduct(${p.id})" class="w-[280px] md:w-[320px] flex-shrink-0 bg-nova-lightgray rounded-2xl overflow-hidden card-section cursor-pointer fade-in"><img src="https://picsum.photos/seed/${p.image_seed}-new/640/360.jpg" class="w-full h-[180px] object-cover card-image" alt=""><div class="p-5"><p class="text-xs text-nova-gray font-medium mb-1 uppercase">${p.category}</p><h3 class="text-base font-semibold mb-1">${p.name}</h3><p class="text-sm text-nova-gray">${p.tagline}</p></div></div>`).join('')}</div></div></section>
+            <section class="bg-nova-lightgray py-16 px-4"><div class="max-w-[1024px] mx-auto"><h2 class="text-3xl font-bold tracking-tight mb-10 fade-in">The Nova experience. <span class="text-nova-gray">Designed around you.</span></h2><div class="grid grid-cols-2 md:grid-cols-4 gap-5">${[{icon:'mdi:headset',t:'Expert Support',s:'24/7 online or in store.'},{icon:'mdi:cellphone-link',t:'Seamless Ecosystem',s:'All your devices, one experience.'},{icon:'mdi:swap-horizontal',t:'Nova Trade-In',s:'Credit toward your next device.'},{icon:'mdi:credit-card-check',t:'Flexible Payments',s:'Pay over time, 0% interest.'}].map(f => `<div class="bg-white rounded-2xl p-6 text-center fade-in"><div class="w-12 h-12 bg-nova-lightgray rounded-full flex items-center justify-center mx-auto mb-4"><iconify-icon icon="${f.icon}" width="22" class="text-nova-purple"></iconify-icon></div><h3 class="font-semibold text-sm mb-1">${f.t}</h3><p class="text-xs text-nova-gray mb-3">${f.s}</p><a href="#" class="text-nova-purple text-xs font-medium hover:underline link-arrow flex items-center justify-center">Learn more <iconify-icon icon="mdi:chevron-right" width="14" class="arrow-icon"></iconify-icon></a></div>`).join('')}</div></div></section>`;
+    }
+
+    function renderHero(p, dark) {
+        const bg = dark ? 'background:linear-gradient(180deg,#0f0f14 0%,#1a1a2e 50%,#0f0f14 100%);' : 'background:linear-gradient(180deg,#fafafa 0%,#f4f4f8 100%);';
+        const tc = dark ? '#fff' : '#0f0f14'; const gc = dark ? 'text-nova-gray' : 'text-nova-gray'; const lc = dark ? 'text-nova-purple-light' : 'text-nova-purple';
+        return `<section class="text-center overflow-hidden ${dark ? 'hero-glow' : ''}" style="${bg} color:${tc}"><div class="pt-16 pb-0 px-4"><h2 class="text-lg font-semibold tracking-tight ${gc} mb-1 fade-in">${p.subtitle}</h2><h1 class="text-4xl md:text-6xl font-bold tracking-tight mb-3 fade-in">${p.tagline}</h1><div class="flex items-center justify-center space-x-6 mb-6 fade-in"><a href="#" onclick="viewProduct(${p.id}); return false;" class="${lc} hover:underline text-lg link-arrow flex items-center">Learn more <iconify-icon icon="mdi:chevron-right" width="18" class="arrow-icon"></iconify-icon></a><button onclick="addToCart(${p.id})" class="${lc} hover:underline text-lg link-arrow flex items-center">Buy <iconify-icon icon="mdi:chevron-right" width="18" class="arrow-icon"></iconify-icon></button>${p.price ? `<span class="text-sm ${gc}">From $${p.price.toFixed(2)}</span>` : ''}</div><div class="card-section max-w-3xl mx-auto cursor-pointer" onclick="viewProduct(${p.id})"><img src="https://picsum.photos/seed/${p.image_seed}/1200/680.jpg" alt="${p.name}" class="w-full card-image"></div></div></section>`;
+    }
+
+    function renderGridCard(p) {
+        const dark = p.color_scheme === 'dark'; const bg = dark ? 'bg-nova-dark text-white' : 'bg-white text-nova-dark'; const lc = dark ? 'text-nova-purple-light' : 'text-nova-purple';
+        return `<section class="${bg} text-center overflow-hidden card-section"><div class="pt-12 pb-0 px-4"><h2 class="text-lg font-semibold tracking-tight text-nova-gray mb-1 fade-in">${p.subtitle}</h2><h1 class="text-3xl md:text-4xl font-bold tracking-tight mb-3 fade-in">${p.tagline}</h1><div class="flex items-center justify-center space-x-6 mb-4 fade-in"><a href="#" onclick="viewProduct(${p.id}); return false;" class="${lc} hover:underline text-base link-arrow flex items-center">Learn more <iconify-icon icon="mdi:chevron-right" width="16" class="arrow-icon"></iconify-icon></a><button onclick="addToCart(${p.id})" class="${lc} hover:underline text-base link-arrow flex items-center">Buy <iconify-icon icon="mdi:chevron-right" width="16" class="arrow-icon"></iconify-icon></button>${p.price ? `<span class="text-sm text-nova-gray">From $${p.price.toFixed(2)}</span>` : ''}</div><div class="cursor-pointer" onclick="viewProduct(${p.id})"><img src="https://picsum.photos/seed/${p.image_seed}/800/500.jpg" alt="${p.name}" class="w-full card-image"></div></div></section>`;
+    }
+
+    async function renderProduct(c, id) {
+        c.innerHTML = `<div class="min-h-screen bg-nova-lightgray flex items-center justify-center"><div class="skeleton w-16 h-16 rounded-full"></div></div>`;
+        try {
+            const p = await api(`/products/${id}`); const dark = p.color_scheme === 'dark';
+            const bgS = dark ? 'background:linear-gradient(180deg,#0f0f14,#0a0a12);' : 'background:#fff;'; const tc = dark ? '#fff' : '#0f0f14'; const lc = dark ? 'text-nova-purple-light' : 'text-nova-purple';
+            c.innerHTML = `<div style="${bgS} color:${tc}" class="min-h-screen"><div class="pt-20 pb-16 px-4"><div class="max-w-[1024px] mx-auto"><div class="flex items-center space-x-2 text-xs ${dark?'text-white/40':'text-nova-gray'} mb-8"><a href="#" onclick="navigateTo('home'); return false;" class="hover:underline">Store</a><iconify-icon icon="mdi:chevron-right" width="12"></iconify-icon><a href="#" onclick="filterCategory('${p.category}'); return false;" class="hover:underline capitalize">${p.category}</a><iconify-icon icon="mdi:chevron-right" width="12"></iconify-icon><span>${p.name}</span></div><div class="text-center mb-8 fade-in"><h2 class="text-lg font-semibold tracking-tight ${dark?'text-white/50':'text-nova-gray'} mb-1">${p.subtitle}</h2><h1 class="text-4xl md:text-6xl font-bold tracking-tight mb-3">${p.tagline}</h1><p class="text-lg ${dark?'text-white/50':'text-nova-gray'} mb-4">${p.description||''}</p>${p.price?`<p class="text-xl font-semibold mb-6">From $${p.price.toFixed(2)}</p>`:''}<button onclick="addToCart(${p.id})" class="bg-nova-purple text-white rounded-full px-8 py-3.5 text-sm font-semibold hover:bg-nova-purple-dark transition-colors"><iconify-icon icon="mdi:shopping-outline" width="16" class="mr-1.5"></iconify-icon>Add to Bag</button></div><div class="rounded-2xl overflow-hidden mb-12 fade-in"><img src="https://picsum.photos/seed/${p.image_seed}-detail/1400/700.jpg" alt="${p.name}" class="w-full"></div>${p.specs&&p.specs.length?`<div class="mb-12 fade-in"><h3 class="text-2xl font-bold mb-6">Key Features</h3><div class="grid grid-cols-2 md:grid-cols-4 gap-3">${p.specs.map(s=>`<div class="spec-chip ${dark?'bg-white/5 border border-white/10':'bg-nova-lightgray border border-gray-200'} rounded-2xl p-5 text-center cursor-default"><p class="text-sm font-medium">${s}</p></div>`).join('')}</div></div>`:''}<div class="mb-12 fade-in"><h3 class="text-2xl font-bold mb-6">Gallery</h3><div class="grid grid-cols-1 md:grid-cols-3 gap-3"><img src="https://picsum.photos/seed/${p.image_seed}-g1/600/400.jpg" class="w-full rounded-xl" alt=""><img src="https://picsum.photos/seed/${p.image_seed}-g2/600/400.jpg" class="w-full rounded-xl" alt=""><img src="https://picsum.photos/seed/${p.image_seed}-g3/600/400.jpg" class="w-full rounded-xl" alt=""></div></div><div class="text-center pt-8 border-t ${dark?'border-white/10':'border-gray-200'} fade-in"><a href="#" onclick="navigateTo('home'); return false;" class="${lc} hover:underline text-sm link-arrow inline-flex items-center"><iconify-icon icon="mdi:chevron-left" width="16" class="mr-1 arrow-icon"></iconify-icon> Back to Store</a></div></div></div></div>`;
+        } catch { c.innerHTML = `<div class="min-h-screen flex items-center justify-center"><p class="text-nova-gray">Product not found.</p></div>`; }
+    }
+
+    async function renderCategory(c, cat) {
+        c.innerHTML = `<div class="min-h-screen bg-nova-lightgray"><div class="max-w-[1024px] mx-auto px-4 py-20">${Array(4).fill('<div class="skeleton h-[300px] rounded-2xl mb-3"></div>').join('')}</div></div>`;
+        try {
+            const products = await api(`/products?category=${cat}`); const name = cat.charAt(0).toUpperCase()+cat.slice(1);
+            const cats = ['phones','laptops','tablets','watches','audio','tv'];
+            c.innerHTML = `<div class="bg-nova-lightgray min-h-screen"><div class="pt-20 pb-12 px-4"><div class="max-w-[1024px] mx-auto"><h1 class="text-4xl md:text-5xl font-bold tracking-tight mb-2 fade-in">${name}</h1><p class="text-lg text-nova-gray mb-8 fade-in">${products.length} product${products.length!==1?'s':''}</p><div class="flex flex-wrap gap-2 mb-8 fade-in"><button onclick="filterCategory('all')" class="px-4 py-1.5 rounded-full text-xs font-medium transition-colors ${cat==='all'?'bg-nova-purple text-white':'bg-white text-nova-gray hover:bg-gray-100'}">All</button>${cats.map(x=>`<button onclick="filterCategory('${x}')" class="px-4 py-1.5 rounded-full text-xs font-medium transition-colors ${cat===x?'bg-nova-purple text-white':'bg-white text-nova-gray hover:bg-gray-100'} capitalize">${x==='tv'?'TV & Home':x}</button>`).join('')}</div><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">${products.map(p=>`<div onclick="viewProduct(${p.id})" class="bg-white rounded-2xl overflow-hidden card-section cursor-pointer fade-in"><div class="aspect-[4/3] overflow-hidden"><img src="https://picsum.photos/seed/${p.image_seed}-cat/600/450.jpg" class="w-full h-full object-cover card-image" alt=""></div><div class="p-5"><p class="text-xs text-nova-gray font-medium mb-1 uppercase">${p.category}</p><h3 class="text-lg font-semibold mb-1">${p.name}</h3><p class="text-sm text-nova-gray mb-2">${p.tagline}</p>${p.price?`<p class="text-sm font-semibold">From $${p.price.toFixed(2)}</p>`:''}</div></div>`).join('')}</div><div class="text-center mt-12 fade-in"><a href="#" onclick="navigateTo('home'); return false;" class="text-nova-purple hover:underline text-sm link-arrow inline-flex items-center"><iconify-icon icon="mdi:chevron-left" width="16" class="mr-1 arrow-icon"></iconify-icon> Back to Store</a></div></div></div></div>`;
+        } catch { c.innerHTML = `<div class="min-h-screen flex items-center justify-center"><p class="text-nova-gray">Failed to load.</p></div>`; }
+    }
+
+    async function renderOrders(c) {
+        if (!currentUser) { c.innerHTML = `<div class="min-h-screen bg-nova-lightgray flex items-center justify-center"><div class="text-center fade-in"><iconify-icon icon="mdi:account-circle-outline" width="64" class="text-nova-gray/20 mb-4"></iconify-icon><h2 class="text-2xl font-bold mb-2">Sign In to View Orders</h2><p class="text-nova-gray text-sm mb-6">You need to be signed in to see your orders.</p><button onclick="openAuthModal()" class="bg-nova-purple text-white rounded-full px-8 py-3 text-sm font-semibold hover:bg-nova-purple-dark transition-colors">Sign In</button></div></div>`; return; }
+        c.innerHTML = `<div class="min-h-screen bg-nova-lightgray flex items-center justify-center"><div class="skeleton w-16 h-16 rounded-full"></div></div>`;
+        try {
+            const orders = await api('/orders');
+            c.innerHTML = `<div class="bg-nova-lightgray min-h-screen"><div class="pt-20 pb-12 px-4"><div class="max-w-[800px] mx-auto"><h1 class="text-4xl font-bold tracking-tight mb-2 fade-in">My Orders</h1><p class="text-nova-gray mb-8 fade-in">${orders.length} order${orders.length!==1?'s':''}</p>${!orders.length?`<div class="bg-white rounded-2xl p-12 text-center fade-in"><iconify-icon icon="mdi:receipt-text-outline" width="48" class="text-nova-gray/20 mb-3"></iconify-icon><p class="text-nova-gray mb-4">No orders yet.</p><button onclick="navigateTo('home')" class="text-nova-purple hover:underline text-sm font-medium">Browse Products</button></div>`:orders.map(o=>`<div class="bg-white rounded-2xl overflow-hidden mb-4 fade-in"><div class="flex items-center justify-between px-6 py-4 border-b border-gray-50"><div><p class="text-sm font-semibold">Order #${o.id}</p><p class="text-xs text-nova-gray">${new Date(o.created_at).toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'})}</p></div><div class="text-right"><span class="inline-block px-3 py-1 rounded-full text-xs font-medium ${o.status==='processing'?'bg-amber-50 text-amber-700':'bg-emerald-50 text-emerald-700'} capitalize">${o.status}</span><p class="text-sm font-bold mt-1">$${o.total.toFixed(2)}</p></div></div><div class="px-6 py-4">${o.items.map(i=>`<div class="flex items-center justify-between py-2"><div class="flex items-center space-x-3"><div class="w-10 h-10 bg-nova-lightgray rounded-lg"></div><div><p class="text-sm font-medium">${i.product_name}</p><p class="text-xs text-nova-gray">Qty: ${i.quantity}</p></div></div><span class="text-sm">$${(i.product_price*i.quantity).toFixed(2)}</span></div>`).join('')}</div></div>`).join('')}<div class="text-center mt-8 fade-in"><a href="#" onclick="navigateTo('home'); return false;" class="text-nova-purple hover:underline text-sm link-arrow inline-flex items-center"><iconify-icon icon="mdi:chevron-left" width="16" class="mr-1 arrow-icon"></iconify-icon> Continue Shopping</a></div></div></div></div>`;
+        } catch { c.innerHTML = `<div class="min-h-screen flex items-center justify-center"><p class="text-nova-gray">Failed to load orders.</p></div>`; }
+    }
+
+    // ===== INTERSECTION OBSERVER =====
+    function observeFadeIns() { const o = new IntersectionObserver((e) => { e.forEach((el, i) => { if (el.isIntersecting) { setTimeout(() => el.target.classList.add('visible'), i * 50); o.unobserve(el.target); } }); }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' }); document.querySelectorAll('.fade-in:not(.visible)').forEach(el => o.observe(el)); }
+
+    // ===== KEYBOARD =====
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeSearch(); closeMobileMenu(); closeCart(); closeAuthModal(); document.body.style.overflow = ''; } if ((e.metaKey||e.ctrlKey) && e.key === 'k') { e.preventDefault(); openSearch(); } });
+
+    // ===== NAV SCROLL =====
+    window.addEventListener('scroll', () => { document.getElementById('mainNav').style.background = window.scrollY > 50 ? 'rgba(15,15,20,0.95)' : 'rgba(15,15,20,0.78)'; });
+
+    // ===== INIT =====
+    (async () => { await checkAuth(); navigateTo('home'); })();
+    </script>
+</body>
+</html>

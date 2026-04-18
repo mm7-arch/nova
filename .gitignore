@@ -1,0 +1,4 @@
+node_modules/
+db/nova.db
+db/nova.db-wal
+db/nova.db-shm
